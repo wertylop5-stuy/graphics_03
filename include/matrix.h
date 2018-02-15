@@ -1,24 +1,27 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include<stdio.h>
+#include<stdlib.h>
+
 struct matrix {
 	float **m;
 	int rows;
 	int cols;
 };
 
-void printMatrix(struct matrix *m);
+struct matrix* new_matrix(int r, int c);
 
-void indent(struct matrix *m);
+void print_matrix(struct matrix *m);
 
-void matrixMult(struct const matrix *a, struct matrix *b);
+void ident(struct matrix *m);
+
+void matrix_mult(struct matrix const *a, struct matrix *b);
 
 void free_matrix(struct matrix *m);
 
 void resize(struct matrix *m);
 
 void grow_matrix();
-
-struct matrix* new_matrix();
 
 #endif
