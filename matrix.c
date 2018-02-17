@@ -31,16 +31,22 @@ void print_matrix(struct matrix *m) {
 }
 
 void ident(struct matrix *m) {
-	float **temp;
-	int counter = 0;
+	int r = 0, c = 0;
 	
 	if (m->cols != m->rows) {
 		fprintf(stderr, "ident: matrix is not square\n");
 		return;
 	}
 	
-	for (temp = m->m; (temp - m->m) < m->rows; temp++) {
-		(*temp)[counter++] = 1;
+	for (; r < m->rows; r++) {
+		for (c = 0; c < m->cols; c++) {
+			if (r == c) {
+				m->m[r][c] = 1.0f;
+			}
+			else {
+				m->m[r][c] = 0.0f;
+			}
+		}
 	}
 }
 
@@ -50,7 +56,7 @@ void matrix_mult(struct matrix const *a, struct matrix *b) {
 
 void free_matrix(struct matrix *m) {
 	float **pos;
-	for (pos = m->m; (pos - m->m) < m->cols; pos++) {
+	for (pos = m->m; (pos - m->m) < m->rows; pos++) {
 		free(*pos);
 	}
 	free(m->m);
@@ -58,6 +64,10 @@ void free_matrix(struct matrix *m) {
 }
 
 void resize(struct matrix *m) {
-	
+	int counter;
+	for (counter = 0; counter < m->rows; counter++) {
+		m->m[counter] = realloc(m->m[counter], m->cols*2*sizeof(float));
+	}
+	m->cols *= 2;
 }
 

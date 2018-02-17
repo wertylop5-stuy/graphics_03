@@ -17,12 +17,12 @@ void print_matrix(struct matrix *m);
 //turns m into an indentity matrix
 void ident(struct matrix *m);
 
+//b will be modified with the result
 void matrix_mult(struct matrix const *a, struct matrix *b);
 
 void free_matrix(struct matrix *m);
 
+//doubles the amount of columns
 void resize(struct matrix *m);
-
-void grow_matrix();
 
 #endif
