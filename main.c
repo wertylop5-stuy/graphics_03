@@ -15,8 +15,12 @@ int main() {
 	
 	struct matrix *m = new_matrix(4, 4);
 	
-	printf("%d, %d\n", m->rows, m->cols);
 	print_matrix(m);
+
+	ident(m);
+	print_matrix(m);
+
+	free_matrix(m);
 	
 	return 0;
 }
