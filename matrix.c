@@ -4,14 +4,15 @@ struct matrix* new_matrix(int r, int c) {
 	struct matrix *res = (struct matrix*)malloc(sizeof(struct matrix));
 	res->rows = r;
 	res->cols = c;
+	res->back = 0;
 	
-	res->m = (float **)malloc(c*sizeof(float *));
+	res->m = (float **)malloc(r*sizeof(float *));
 	
 	float **pos;
 	for (pos = res->m;
-			(pos - res->m) < c;
+			(pos - res->m) < r;
 			pos++ ) {
-		*pos = (float *)malloc(r*sizeof(float));
+		*pos = (float *)malloc(c*sizeof(float));
 	}
 	
 	return res;
@@ -20,8 +21,8 @@ struct matrix* new_matrix(int r, int c) {
 void print_matrix(struct matrix *m) {
 	float *pos;
 	float **temp;
-	for (temp = m->m; (temp - m->m) < m->rows; temp++) {
-		for (pos = *temp; (pos - *temp) < m->cols; pos++) {
+	for (temp = m->m; m->back != 0 && (temp - m->m) < m->rows; temp++) {
+		for (pos = *temp; (pos - *temp) < m->back; pos++) {
 			printf("%.2f\t", *pos);
 		}
 		printf("\n");
@@ -51,7 +52,14 @@ void ident(struct matrix *m) {
 }
 
 void matrix_mult(struct matrix const *a, struct matrix *b) {
-	
+	int x, r, c;
+	for (x = 0; x < b->back; x++) {
+		for (r = 0; r < a->rows; r++) {
+			for (c = 0; c < a->back; c++) {
+				b->m[c][x] *= a->m[r][c];
+			}
+		}
+	}
 }
 
 void free_matrix(struct matrix *m) {

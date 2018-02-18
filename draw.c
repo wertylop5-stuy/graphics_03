@@ -149,3 +149,21 @@ void drawLine(Frame grid, struct Pixel *p, int x1, int y1, int x2, int y2) {
 	}
 }
 
+void push_point(struct matrix *m, float x, float y, float z) {
+	if (m->back == m->cols) {
+		resize(m);
+	}
+
+	m->m[0][m->back] = x;
+	m->m[1][m->back] = y;
+	m->m[2][m->back] = z;
+	m->back++;
+}
+
+void push_edge(struct matrix *m, float x1, float y1,
+		float z1, float x2, float y2, float z2) {
+	push_point(m, x1, y1, z1);
+	push_point(m, x2, y2, z2);
+}
+
+
