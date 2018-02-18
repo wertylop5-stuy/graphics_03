@@ -19,19 +19,35 @@ void write_to_file(Frame p) {
 }
 
 //from Mr. DW's code
-void display(Frame p) {
-	FILE *f;
-	f = popen("display", "w");
+void display(Frame f) {
+	FILE *file;
+	file = popen("display", "w");
 
-	fprintf(f, "P3\n%d %d\n%d\n", IMG_WIDTH, IMG_HEIGHT, MAX_COLOR);
+	fprintf(file, "P3\n%d %d\n%d\n", IMG_WIDTH, IMG_HEIGHT, MAX_COLOR);
 
 	int x,y;
 	for (y = 0; y < IMG_HEIGHT; y++) {
 	for (x = 0; x < IMG_WIDTH; x++) {
-		fprintf(f, "%d %d %d ", p[y][x].r, p[y][x].g, p[y][x].b);
+		fprintf(file, "%d %d %d ", f[y][x].r, f[y][x].g, f[y][x].b);
 	}
-		fprintf(f, "\n");
+		fprintf(file, "\n");
 	}
-	pclose(f);
+	pclose(file);
+}
+
+void save_png(Frame f) {
+	FILE *file;
+	file = popen("convert - picture.png", "w");
+	
+	fprintf(file, "P3\n%d %d\n%d\n", IMG_WIDTH, IMG_HEIGHT, MAX_COLOR);
+	
+	int x,y;
+	for (y = 0; y < IMG_HEIGHT; y++) {
+	for (x = 0; x < IMG_WIDTH; x++) {
+		fprintf(file, "%d %d %d ", f[y][x].r, f[y][x].g, f[y][x].b);
+	}
+		fprintf(file, "\n");
+	}
+	pclose(file);
 }
 

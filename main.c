@@ -154,6 +154,7 @@ int main() {
 	draw_lines(f, a, &p);
 
 	write_to_file(f);
+	save_png(f);
 	display(f);
 	
 	return 0;

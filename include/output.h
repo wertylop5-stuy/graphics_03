@@ -15,6 +15,8 @@
 //p must be the same dimension as the desired image
 void write_to_file(Frame p);
 
-void display(Frame p);
+void display(Frame f);
+
+void save_png(Frame f);
 
 #endif
