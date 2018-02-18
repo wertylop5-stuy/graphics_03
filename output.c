@@ -1,6 +1,6 @@
 #include"include/output.h"
 
-void writeToFile(Frame p) {
+void write_to_file(Frame p) {
 	int fd = open(FILE_NAME, O_CREAT | O_WRONLY, 0644);
 	char buf[1024];
 	

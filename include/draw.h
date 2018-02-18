@@ -16,16 +16,19 @@ typedef struct Pixel Frame[IMG_HEIGHT][IMG_WIDTH];
 
 //writes a pixel value to a spot on the grid
 //(0, 0) is the bottom left of the grid
-void plotPoint(Frame grid, int x, int y, struct Pixel *p);
+void plot_point(Frame grid, int x, int y, struct Pixel *p);
 
 //pixel is for custom colors
-void drawLine(Frame grid, struct Pixel *p, int x1, int y1, int x2, int y2);
+void draw_line(Frame grid, struct Pixel *p, int x1, int y1, int x2, int y2);
 
-void pixelColor(struct Pixel *p, unsigned char r, unsigned char g, unsigned char b);
+//p is the color, assumes length of m is even
+void draw_lines(Frame grid, struct Matrix *m, struct Pixel *p);
 
-void push_point(struct matrix *m, float x, float y, float z);
+void pixel_color(struct Pixel *p, unsigned char r, unsigned char g, unsigned char b);
 
-void push_edge(struct matrix *m, float x1, float y1,
+void push_point(struct Matrix *m, float x, float y, float z);
+
+void push_edge(struct Matrix *m, float x1, float y1,
 		float z1, float x2, float y2, float z2);
 
 #endif

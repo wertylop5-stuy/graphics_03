@@ -13,7 +13,7 @@
 #define FILE_NAME	"picture.ppm"
 
 //p must be the same dimension as the desired image
-void writeToFile(Frame p);
+void write_to_file(Frame p);
 
 void display(Frame p);
 

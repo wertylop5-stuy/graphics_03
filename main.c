@@ -2,61 +2,37 @@
 #include"include/output.h"
 #include"include/matrix.h"
 
+//how big to make the "pixels"
+#define PIXEL_WIDTH	20
+
+//offset from lower left corner
+#define OFFSET		50
+
+//(x, y) is the top left of the pixel
+void fill_pixel(Frame f, struct Pixel *p, int x, int y) {
+	int a, b;
+	for (a = x+1; a < x+PIXEL_WIDTH; a++) {
+	for (b = y-1; b > y-PIXEL_WIDTH; b--) {
+		plot_point(f, a, b, p);
+	}
+	}
+}
+
+//pushes the pixel border into the frame, and fills in the pixel
+//note: the borders arent drawn immediately
+void place_pixel(struct Matrix *m, Frame f, struct Pixel *p, int x, int y) {
+	push_edge(m, x, y, 0, x+PIXEL_WIDTH, y, 0);
+	push_edge(m, x, y, 0, x, y-PIXEL_WIDTH, 0);
+	push_edge(m, x, y-PIXEL_WIDTH, 0, x+PIXEL_WIDTH, y-PIXEL_WIDTH, 0);
+	push_edge(m, x+PIXEL_WIDTH, y, 0, x+PIXEL_WIDTH, y-PIXEL_WIDTH, 0);
+
+	fill_pixel(f, p, x, y);
+}
+
 int main() {
-	/*
-	Frame test;
-	memset(test, 0, sizeof(test));
-	
-	struct Pixel p;
-	pixelColor(&p, 0, 255, 0);
-	
-	writeToFile(test);
-	*/
-	
-	/*
-	struct matrix *m = new_matrix(4, 4);
-
-	ident(m);
-	print_matrix(m);
-
-	resize(m);
-	print_matrix(m);
-
-	m->m[0][5] = 9.0f;
-	print_matrix(m);
-
-	struct matrix *a = new_matrix(1, 4);
-	a->m[0][0] = 1.0f;
-	a->m[0][1] = 2.0f;
-	a->m[0][2] = 3.0f;
-	a->m[0][3] = 4.0f;
-
-
-	struct matrix *b = new_matrix(4, 2);
-	b->m[0][0] = 5.0f;
-	b->m[1][0] = 3.0f;
-	b->m[2][0] = 1.0f;
-	b->m[3][0] = 0.0f;
-	b->m[0][1] = 20.0f;
-	b->m[1][1] = 24.0f;
-	b->m[2][1] = 0.5f;
-	b->m[3][1] = 0.1f;
-
-	print_matrix(b);
-	matrix_mult(a, b);
-	print_matrix(b);
-
-	push_point(b, 0, 0, 0);
-	print_matrix(b);
-	
-	free_matrix(m);
-	free_matrix(a);
-	free_matrix(b);
-	*/
-	
-	struct matrix *a = new_matrix(1, 5);
-	struct matrix *b = new_matrix(3, 1);
-	struct matrix *i = new_matrix(3, 3);
+	struct Matrix *a = new_matrix(1, 5);
+	struct Matrix *b = new_matrix(3, 1);
+	struct Matrix *i = new_matrix(3, 3);
 	ident(i);
 
 	printf("empty matrix\n");
@@ -84,6 +60,87 @@ int main() {
 	printf("matrix mult with [2, 3, 4]\n");
 	matrix_mult(a, b);
 	print_matrix(b);
+
+	free_matrix(a);
+	free_matrix(b);
+	free_matrix(i);
+	a = b = i = 0;
+
+	printf("drawing mario!\n");
+	//setup
+	Frame f;
+	memset(f, 255, sizeof(Frame));
+	struct Pixel p;
+	a = new_matrix(3, 1);
+	
+	//the good stuff
+	
+	//place cream colored pixels
+	//the head
+	pixel_color(&p, 255, 235, 205);
+	place_pixel(a, f, &p, 5+OFFSET, 14+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+
+	//the body
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+
+
+	draw_lines(f, a, &p);
+
+	write_to_file(f);
 	
 	return 0;
 }

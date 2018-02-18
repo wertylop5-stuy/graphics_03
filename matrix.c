@@ -1,7 +1,7 @@
 #include "include/matrix.h"
 
-struct matrix* new_matrix(int r, int c) {
-	struct matrix *res = (struct matrix*)malloc(sizeof(struct matrix));
+struct Matrix* new_matrix(int r, int c) {
+	struct Matrix *res = (struct Matrix*)malloc(sizeof(struct Matrix));
 	res->rows = r;
 	res->cols = c;
 	res->back = 0;
@@ -18,7 +18,7 @@ struct matrix* new_matrix(int r, int c) {
 	return res;
 }
 
-void print_matrix(struct matrix *m) {
+void print_matrix(struct Matrix *m) {
 	float *pos;
 	float **temp;
 	for (temp = m->m; m->back != 0 && (temp - m->m) < m->rows; temp++) {
@@ -31,7 +31,7 @@ void print_matrix(struct matrix *m) {
 	printf("\n");
 }
 
-void ident(struct matrix *m) {
+void ident(struct Matrix *m) {
 	int r = 0, c = 0;
 	
 	if (m->cols != m->rows) {
@@ -51,7 +51,7 @@ void ident(struct matrix *m) {
 	}
 }
 
-void matrix_mult(struct matrix const *a, struct matrix *b) {
+void matrix_mult(struct Matrix const *a, struct Matrix *b) {
 	int x, r, c;
 	for (x = 0; x < b->back; x++) {
 		for (r = 0; r < a->rows; r++) {
@@ -62,7 +62,7 @@ void matrix_mult(struct matrix const *a, struct matrix *b) {
 	}
 }
 
-void free_matrix(struct matrix *m) {
+void free_matrix(struct Matrix *m) {
 	float **pos;
 	for (pos = m->m; (pos - m->m) < m->rows; pos++) {
 		free(*pos);
@@ -71,7 +71,7 @@ void free_matrix(struct matrix *m) {
 	free(m);
 }
 
-void resize(struct matrix *m) {
+void resize(struct Matrix *m) {
 	int counter;
 	for (counter = 0; counter < m->rows; counter++) {
 		m->m[counter] = realloc(m->m[counter], m->cols*2*sizeof(float));

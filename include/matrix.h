@@ -4,28 +4,28 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-struct matrix {
+struct Matrix {
 	float **m;
 	int rows;
 	int cols;
 	int back;	//last-most col that is being used
 };
 
-struct matrix* new_matrix(int r, int c);
+struct Matrix* new_matrix(int r, int c);
 
-void print_matrix(struct matrix *m);
+void print_matrix(struct Matrix *m);
 
 //turns m into an indentity matrix
 //must be a square matrix
-void ident(struct matrix *m);
+void ident(struct Matrix *m);
 
 //b will be modified with the result
 //cols dimensions of a must = rows of b
-void matrix_mult(struct matrix const *a, struct matrix *b);
+void matrix_mult(struct Matrix const *a, struct Matrix *b);
 
-void free_matrix(struct matrix *m);
+void free_matrix(struct Matrix *m);
 
 //doubles the amount of columns
-void resize(struct matrix *m);
+void resize(struct Matrix *m);
 
 #endif

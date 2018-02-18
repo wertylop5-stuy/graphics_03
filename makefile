@@ -3,6 +3,7 @@ OUTPUT = picture.ppm
 
 all: $(OBJS)
 	gcc -o lines $(OBJS)
+	./lines
 
 main.o: main.c include/draw.h include/output.h include/matrix.h
 	gcc $(DBG) -c main.c include/draw.h include/output.h include/matrix.h
