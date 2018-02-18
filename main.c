@@ -3,10 +3,10 @@
 #include"include/matrix.h"
 
 //how big to make the "pixels"
-#define PIXEL_WIDTH	20
+#define PIXEL_WIDTH	10
 
 //offset from lower left corner
-#define OFFSET		50
+#define OFFSET		19
 
 //(x, y) is the top left of the pixel
 void fill_pixel(Frame f, struct Pixel *p, int x, int y) {
@@ -27,6 +27,22 @@ void place_pixel(struct Matrix *m, Frame f, struct Pixel *p, int x, int y) {
 	push_edge(m, x+PIXEL_WIDTH, y, 0, x+PIXEL_WIDTH, y-PIXEL_WIDTH, 0);
 
 	fill_pixel(f, p, x, y);
+}
+
+//len is int, coords is int[]
+void batch_place(struct Matrix *m, Frame f, struct Pixel *p, int *coords, int *len) {
+	int x;
+	for (x = 1; x < *len; x+=2) {
+		place_pixel(m, f, p,
+				(coords[x-1]+OFFSET)*PIXEL_WIDTH,
+				(coords[x]+OFFSET)*PIXEL_WIDTH);
+	}
+}
+
+void add_coord(int *coords, int *len, int x, int y) {
+	coords[*len] = x;
+	coords[(*len)+1] = y;
+	(*len)+=2;
 }
 
 int main() {
@@ -68,76 +84,68 @@ int main() {
 
 	printf("drawing mario!\n");
 	//setup
+	a = new_matrix(3, 1);
+	
 	Frame f;
 	memset(f, 255, sizeof(Frame));
 	struct Pixel p;
-	a = new_matrix(3, 1);
-	
+	int coords[2048];
+	int len = 0;
+
+	FILE *file = fopen("mario", "r");
+	char line[64];
+	int num_colors, num_coords, x, y;
+	int red, green, blue;
+	int n,m;
+
 	//the good stuff
+	/* File Format
+	 *
+	 * <# of colors>
+	 * For each color:
+	 * 	<r, g, b> value
+	 * 	<# of coordinate pairs>
+	 * 	For each coord pair:
+	 * 		<x, y>
+	 *
+	 * Ex:
+	 * 2
+	 * 255,255,255
+	 * 3
+	 * 0,0
+	 * 1,1
+	 * 2,2
+	 * 0,0,0
+	 * 1
+	 * 70,45
+	 * */
+	//num colors
+	fgets(line, sizeof(line), file);
+	sscanf(line, "%d\n", &num_colors);
 	
-	//place cream colored pixels
-	//the head
-	pixel_color(&p, 255, 235, 205);
-	place_pixel(a, f, &p, 5+OFFSET, 14+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
+	for (n = 0; n < num_colors; n++) {
+		//color
+		fgets(line, sizeof(line), file);
+		sscanf(line, "%d,%d,%d\n", &red, &green, &blue);
+		pixel_color(&p, red, green, blue);
 
-	//the body
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-	place_pixel(a, f, &p, 0+OFFSET, 0+OFFSET);
-
-
+		//number of coords
+		fgets(line, sizeof(line), file);
+		sscanf(line, "%d\n", &num_coords);
+		
+		for (m = 0; m < num_coords; m++) {
+			fgets(line, sizeof(line), file);
+			sscanf(line, "%d,%d\n", &x, &y);
+			
+			add_coord(coords, &len, x, y);
+		}
+		
+		batch_place(a, f, &p, coords, &len);
+		memset(coords, 0, sizeof(coords));
+		len = 0;
+	}
+	
+	pixel_color(&p, 0, 0, 0);
 	draw_lines(f, a, &p);
 
 	write_to_file(f);
