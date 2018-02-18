@@ -1,3 +1,8 @@
+/*
+Pixel coordinates from:
+http://au.mathworks.com/matlabcentral/mlc-downloads/downloads/submissions/40334/versions/2/screenshot.png
+*/
+
 #include"include/draw.h"
 #include"include/output.h"
 #include"include/matrix.h"
@@ -149,6 +154,7 @@ int main() {
 	draw_lines(f, a, &p);
 
 	write_to_file(f);
+	display(f);
 	
 	return 0;
 }
