@@ -158,6 +158,12 @@ int main() {
 	write_to_file(f);
 	save_png(f);
 	display(f);
+
+	free_matrix(a);
+	pclose(file);
+
+	file = 0;
+	a = 0;
 	
 	return 0;
 }
