@@ -49,6 +49,7 @@ void ident(struct Matrix *m) {
 			}
 		}
 	}
+	m->back = m->cols;
 }
 
 void matrix_mult(struct Matrix const *a, struct Matrix *b) {

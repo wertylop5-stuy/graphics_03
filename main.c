@@ -58,6 +58,8 @@ int main() {
 
 	printf("empty matrix\n");
 	print_matrix(b);
+	printf("identity matrix\n");
+	print_matrix(i);
 	printf("pushing points\n");
 	push_point(b, 1, 2, 3);
 	print_matrix(b);
